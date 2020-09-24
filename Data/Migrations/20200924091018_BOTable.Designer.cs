@@ -4,14 +4,16 @@ using LeaveManagment.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LeaveManagment.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200924091018_BOTable")]
+    partial class BOTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +74,11 @@ namespace LeaveManagment.Data.Migrations
                     b.Property<int>("LeaveTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("RequestingEmployeeId")
+                    b.Property<string>("REQUESTEDBY_EMPLOYEE_Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RequestingEmployeeId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -84,7 +89,7 @@ namespace LeaveManagment.Data.Migrations
 
                     b.HasIndex("LeaveTypeId");
 
-                    b.HasIndex("RequestingEmployeeId");
+                    b.HasIndex("REQUESTEDBY_EMPLOYEE_Id");
 
                     b.ToTable("LeaveHistories");
                 });
@@ -363,7 +368,7 @@ namespace LeaveManagment.Data.Migrations
 
                     b.HasOne("LeaveManagment.Data.Employee", "RequestingEmployee")
                         .WithMany()
-                        .HasForeignKey("RequestingEmployeeId");
+                        .HasForeignKey("REQUESTEDBY_EMPLOYEE_Id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
