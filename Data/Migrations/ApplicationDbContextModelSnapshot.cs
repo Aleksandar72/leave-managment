@@ -38,6 +38,9 @@ namespace LeaveManagment.Data.Migrations
                     b.Property<int>("NumberOfDays")
                         .HasColumnType("int");
 
+                    b.Property<int>("Period")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
@@ -99,6 +102,9 @@ namespace LeaveManagment.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DefaultDays")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -106,6 +112,25 @@ namespace LeaveManagment.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LeaveTypes");
+                });
+
+            modelBuilder.Entity("LeaveManagment.Models.LeaveTypesVM", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LeaveTypesVM");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -159,7 +184,7 @@ namespace LeaveManagment.Data.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -227,10 +252,10 @@ namespace LeaveManagment.Data.Migrations
 
                     b.ToTable("AspNetUsers");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+                    b.HasDiscriminator<string>("Discriminator").HasValue(">LeaveManagment.Data.Employee>");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>Claim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -254,7 +279,7 @@ namespace LeaveManagment.Data.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>Login<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(128)")
@@ -278,7 +303,7 @@ namespace LeaveManagment.Data.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>Role<string>", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -293,7 +318,7 @@ namespace LeaveManagment.Data.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>Token<string>", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -314,9 +339,9 @@ namespace LeaveManagment.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LeaveManagment.Data.Employee", b =>
+            modelBuilder.Entity("LeaveManagment.Data.Employee>", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>");
 
                     b.Property<DateTime>("DateJoined")
                         .HasColumnType("datetime2");
@@ -338,7 +363,7 @@ namespace LeaveManagment.Data.Migrations
 
             modelBuilder.Entity("LeaveManagment.Data.LeaveAllocation", b =>
                 {
-                    b.HasOne("LeaveManagment.Data.Employee", "Employee")
+                    b.HasOne("LeaveManagment.Data.Employee>", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId");
 
@@ -351,7 +376,7 @@ namespace LeaveManagment.Data.Migrations
 
             modelBuilder.Entity("LeaveManagment.Data.LeaveHistory", b =>
                 {
-                    b.HasOne("LeaveManagment.Data.Employee", "ApprovedBy")
+                    b.HasOne("LeaveManagment.Data.Employee>", "ApprovedBy")
                         .WithMany()
                         .HasForeignKey("ApprovedById");
 
@@ -361,7 +386,7 @@ namespace LeaveManagment.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LeaveManagment.Data.Employee", "RequestingEmployee")
+                    b.HasOne("LeaveManagment.Data.Employee>", "RequestingEmployee")
                         .WithMany()
                         .HasForeignKey("RequestingEmployeeId");
                 });
@@ -375,25 +400,25 @@ namespace LeaveManagment.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>Claim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>Login<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>Role<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
@@ -401,16 +426,16 @@ namespace LeaveManagment.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>Token<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.>LeaveManagment.Data.Employee>", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

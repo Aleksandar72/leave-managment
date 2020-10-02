@@ -14,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LeaveManagment.Contract;
+using AutoMapper;
+using LeaveManagment.Mappings;
 
 namespace LeaveManagment
 {
@@ -32,22 +34,31 @@ namespace LeaveManagment
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
             services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
             services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+
+            services.AddAutoMapper(typeof(Maps));
+
+            services.AddDefaultIdentity<Employee>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app,
+                              IWebHostEnvironment env,
+                              UserManager<Employee> userManager,
+                              RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
             }
             else
             {
@@ -62,6 +73,8 @@ namespace LeaveManagment
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+           ManageRoles.CreateDefault(userManager,roleManager);
 
             app.UseEndpoints(endpoints =>
             {

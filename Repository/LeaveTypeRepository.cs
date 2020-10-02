@@ -1,5 +1,6 @@
 ﻿using LeaveManagment.Contract;
 using LeaveManagment.Data;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,11 @@ namespace LeaveManagment.Repository
         public LeaveType FindById(int Id)
         {
             return _db.LeaveTypes.Find(Id);
+        }
+
+        public bool isExist(int Id)
+        {
+            return _db.LeaveTypes.Any(q => q.Id == Id);
         }
 
         public bool Save()

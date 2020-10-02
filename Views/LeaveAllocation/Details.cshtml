@@ -1,0 +1,54 @@
+﻿@model LeaveManagment.Models.ViewAllocationVM
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>EmployeeVM</h4>
+    <hr />
+    <dl class="row">
+        
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Employee.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Employee.Email)
+        </dd>
+       
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.Firstname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Employee.Firstname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Employee.Lastname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Employee.Lastname)
+        </dd>
+       
+    </dl>
+</div>
+<div>
+  
+    <a asp-action="Index">Back to List</a>
+</div>
+@foreach (var item in Model.LeaveAllocations)
+{
+    <p>@item.LeaveType.Name</p>
+    <p>@item.NumberOfDays</p>
+
+    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+
+}
