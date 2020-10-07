@@ -32,10 +32,10 @@ namespace LeaveManagment.Controllers
             _mapper = mapper;
         }
         // GET: LeaveAllocation
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var leavetype = _leaveTyperepo.FindAll().ToList();
-            var mappedLeaveTypes = _mapper.Map<List<LeaveTypes>,List<LeaveTypesVM>>(leavetype);
+            var leavetype = await _leaveTyperepo.FindAll();
+            var mappedLeaveTypes = _mapper.Map<List<LeaveTypes>,List<LeaveTypesVM>>(leavetype.ToList());
             var model = new CreateLeaveAllocationVM
             {
                 LeaveTypes = mappedLeaveTypes,
@@ -43,13 +43,13 @@ namespace LeaveManagment.Controllers
             };
             return View(model);
         }
-        public ActionResult SetLeave(int id)
+        public async Task<ActionResult> SetLeave(int id)
         {
-            var leavetype = _leaveTyperepo.FindById(id);
-            var employees = _userManager.GetUsersInRoleAsync("Employee").Result;
+            var leavetype = await _leaveTyperepo.FindById(id);
+            var employees = await _userManager.GetUsersInRoleAsync("Employee");
             foreach (var emp in employees)
             {
-                if (_leaveAllocationrepo.CheckAllocation(id, emp.Id))
+                if (await _leaveAllocationrepo.CheckAllocation(id, emp.Id))
                     continue;
                 var allocation = new LeaveAllocationVM
                 {
@@ -60,22 +60,22 @@ namespace LeaveManagment.Controllers
                     Period = DateTime.Now.Year
                 };
                 var alloc = _mapper.Map<LeaveAllocation>(allocation);
-                _leaveAllocationrepo.Create(alloc);
+                await _leaveAllocationrepo.Create(alloc);
             }
             return RedirectToAction(nameof(Index));
         }
-        public ActionResult ListEmployees()
+        public async Task<ActionResult> ListEmployees()
         {
-            var employees = _userManager.GetUsersInRoleAsync("Employee").Result;
+            var employees =await _userManager.GetUsersInRoleAsync("Employee");
             var model = _mapper.Map<List<EmployeeVM>>(employees);
             return View(model);
         }
 
         // GET: LeaveAllocation/Details/5
-        public ActionResult Details(string id)
+        public async Task<ActionResult> Details(string id)
         {
-            var employee = _mapper.Map<EmployeeVM>(_userManager.FindByIdAsync(id).Result);
-            var allocation = _mapper.Map<List<LeaveAllocationVM>>(_leaveAllocationrepo.GetLeaveAllocationsByEmployee(id));
+            var employee = _mapper.Map<EmployeeVM>(await _userManager.FindByIdAsync(id));
+            var allocation = _mapper.Map<List<LeaveAllocationVM>>(await _leaveAllocationrepo.GetLeaveAllocationsByEmployee(id));
             var model = new ViewAllocationVM
             {
                 Employee = employee,
@@ -89,42 +89,26 @@ namespace LeaveManagment.Controllers
         {
             return View();
         }
-
-        // POST: LeaveAllocation/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: LeaveAllocation/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var model = _mapper.Map<EditLeaveAllocationVM>(_leaveAllocationrepo.FindById(id));
+            var model = _mapper.Map<EditLeaveAllocationVM>(await _leaveAllocationrepo.FindById(id));
             return View(model);
         }
 
         // POST: LeaveAllocation/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditLeaveAllocationVM editLeaveAllocationVM)
+        public async Task<ActionResult> Edit(EditLeaveAllocationVM editLeaveAllocationVM)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return View(editLeaveAllocationVM);
 
-                var defaultEntity = _leaveAllocationrepo.FindById(editLeaveAllocationVM.Id);
+                var defaultEntity = await _leaveAllocationrepo.FindById(editLeaveAllocationVM.Id);
                 defaultEntity.NumberOfDays = editLeaveAllocationVM.NumberOfDays;
-                var isSuccess =  _leaveAllocationrepo.Update(defaultEntity);
+                var isSuccess = await _leaveAllocationrepo.Update(defaultEntity);
                 if (!isSuccess)
                 {
                     ModelState.AddModelError("","Something went wrong...");
@@ -132,27 +116,6 @@ namespace LeaveManagment.Controllers
                 }
                
                 return RedirectToAction(nameof(Details), new { id = editLeaveAllocationVM.EmployeeId });
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LeaveAllocation/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: LeaveAllocation/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
             }
             catch
             {

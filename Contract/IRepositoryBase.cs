@@ -7,12 +7,12 @@ namespace LeaveManagment.Contract
 {
      public interface IRepositoryBase<T> where T : class
     {
-        ICollection<T> FindAll();
-        bool isExist(int Id); 
-        T FindById(int Id);
-        bool Create(T entity);
-        bool Update(T entity);
-        bool Delete(T entity);
-        bool Save();
+       Task<ICollection<T>> FindAll();
+       Task<bool> isExist(int Id); 
+       Task<T> FindById(int Id);
+       Task<bool> Create(T entity);
+       Task<bool> Update(T entity);
+       Task<bool> Delete(T entity);
+       Task<bool> Save();
     }
 }
