@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagment.Repository
 {
@@ -16,43 +17,44 @@ namespace LeaveManagment.Repository
         {
             _db = db;
         }
-        public bool Create(LeaveTypes entity)
+        public async Task<bool> Create(LeaveTypes entity)
         {
 
-            _db.LeaveTypes.Add(entity);
-            return Save();
+            await _db.LeaveTypes.AddAsync(entity);
+            return await Save();
         }
 
-        public bool Delete(LeaveTypes entity)
+        public async Task<bool> Delete(LeaveTypes entity)
         {
-            _db.LeaveTypes.Remove(entity);
-            return Save();
+             _db.LeaveTypes.Remove(entity);
+            return await Save();
         }
 
-        public ICollection<LeaveTypes> FindAll()
+        public async Task<ICollection<LeaveTypes>> FindAll()
         {
-            return _db.LeaveTypes.ToList();
+            return await _db.LeaveTypes.ToListAsync();
         }
 
-        public LeaveTypes FindById(int Id)
+        public async Task<LeaveTypes> FindById(int Id)
         {
-            return _db.LeaveTypes.Find(Id);
+            return await _db.LeaveTypes.FindAsync(Id);
         }
 
-        public bool isExist(int Id)
+        public async Task<bool> isExist(int Id)
         {
-            return _db.LeaveTypes.Any(q => q.Id == Id);
+            return await _db.LeaveTypes.AnyAsync(q => q.Id == Id);
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-           return _db.SaveChanges() > 0;
+            var changes = await _db.SaveChangesAsync();
+           return changes > 0;
         }
 
-        public bool Update(LeaveTypes entity)
+        public async Task<bool> Update(LeaveTypes entity)
         {
             _db.LeaveTypes.Update(entity);
-            return Save();
+            return await Save();
         }
     }
 }
