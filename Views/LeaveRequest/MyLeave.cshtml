@@ -1,0 +1,87 @@
+﻿@model LeaveManagment.Models.EmployeeLeaveRequestViewVM
+
+@{
+    ViewData["Title"] = "MyLeave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>My leave Allocation</h1>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                LeaveType Name
+            </th>
+            <th>
+                LeaveType DefaultDays
+            </th>
+            <th>
+                NumberOfDays
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.leaveAllocations)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType.DefaultDays)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfDays)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h1>MyLeaveRequest</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+           
+            <th>
+               StartDate
+            </th>
+            <th>
+               EndDate
+            </th>
+            <th>
+                LeaveTypeName
+            </th>
+            <th>
+                Approved
+            </th>
+            <th>
+               ApprovedBy
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.leaveRequests) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveTypes.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Approved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApprovedBy.UserName)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

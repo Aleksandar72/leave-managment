@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LeaveManagment.Data
 {
-    public class LeaveType
+    public class LeaveTypes
     {
         [Key]
         public int Id { get; set; }

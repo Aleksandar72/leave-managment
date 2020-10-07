@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace LeaveManagment.Contract
 {
-    public interface ILeaveHistoryRepository : IRepositoryBase<LeaveHistory>
+    public interface ILeaveRequestRepository : IRepositoryBase<LeaveRequest>
     {
+       ICollection<LeaveRequest> GetLeaveRequestByEmployeeId(string employeeId); 
     }
 }

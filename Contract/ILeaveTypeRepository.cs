@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LeaveManagment.Contract
 {
-    public interface ILeaveTypeRepository : IRepositoryBase<LeaveType>
+    public interface ILeaveTypeRepository : IRepositoryBase<LeaveTypes>
     {
     }
 }

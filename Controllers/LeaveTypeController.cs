@@ -28,7 +28,7 @@ namespace LeaveManagment.Controllers
         public ActionResult Index()
         {
             var leavetype = _repo.FindAll().ToList();
-            var model = _mapper.Map<List<LeaveType> , List<LeaveTypesVM>>(leavetype);
+            var model = _mapper.Map<List<LeaveTypes> , List<LeaveTypesVM>>(leavetype);
             return View(model);
         }
 
@@ -61,7 +61,7 @@ namespace LeaveManagment.Controllers
                 {
                     return View(model);
                 }
-                var leavetypes = _mapper.Map<LeaveType>(model);
+                var leavetypes = _mapper.Map<LeaveTypes>(model);
                 leavetypes.DateCreated = DateTime.Now;
                 if (!_repo.Create(leavetypes))
                 {
@@ -98,7 +98,7 @@ namespace LeaveManagment.Controllers
                 {
                     return View(model);
                 }
-                var leavetypes = _mapper.Map<LeaveType>(model);
+                var leavetypes = _mapper.Map<LeaveTypes>(model);
                 if (_repo.Update(leavetypes))
                 {
                     ModelState.AddModelError("", "Something went wrong");

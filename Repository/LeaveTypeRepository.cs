@@ -16,25 +16,25 @@ namespace LeaveManagment.Repository
         {
             _db = db;
         }
-        public bool Create(LeaveType entity)
+        public bool Create(LeaveTypes entity)
         {
 
             _db.LeaveTypes.Add(entity);
             return Save();
         }
 
-        public bool Delete(LeaveType entity)
+        public bool Delete(LeaveTypes entity)
         {
             _db.LeaveTypes.Remove(entity);
             return Save();
         }
 
-        public ICollection<LeaveType> FindAll()
+        public ICollection<LeaveTypes> FindAll()
         {
             return _db.LeaveTypes.ToList();
         }
 
-        public LeaveType FindById(int Id)
+        public LeaveTypes FindById(int Id)
         {
             return _db.LeaveTypes.Find(Id);
         }
@@ -49,7 +49,7 @@ namespace LeaveManagment.Repository
            return _db.SaveChanges() > 0;
         }
 
-        public bool Update(LeaveType entity)
+        public bool Update(LeaveTypes entity)
         {
             _db.LeaveTypes.Update(entity);
             return Save();

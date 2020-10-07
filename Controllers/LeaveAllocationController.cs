@@ -35,7 +35,7 @@ namespace LeaveManagment.Controllers
         public ActionResult Index()
         {
             var leavetype = _leaveTyperepo.FindAll().ToList();
-            var mappedLeaveTypes = _mapper.Map<List<LeaveType>,List<LeaveTypesVM>>(leavetype);
+            var mappedLeaveTypes = _mapper.Map<List<LeaveTypes>,List<LeaveTypesVM>>(leavetype);
             var model = new CreateLeaveAllocationVM
             {
                 LeaveTypes = mappedLeaveTypes,

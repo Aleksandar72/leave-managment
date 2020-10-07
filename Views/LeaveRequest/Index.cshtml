@@ -1,0 +1,76 @@
+﻿@model LeaveManagment.Models.AdminLeaveRequestsViewVM
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+<h3>@Model.TotalRequest</h3>
+<h3>@Model.ApprowedRequest</h3>
+<h3>@Model.PendingRequest</h3>
+<h3>@Model.RejectedRequest</h3>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                RequestingEmployee
+            </th>
+            <th>
+               StartDate
+            </th>
+            <th>
+               EndDate
+            </th>
+            <th>
+               LeaveType
+            </th>
+            <th>
+               DateRequested
+            </th>
+            <th>
+             Approved
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.leaveRequests) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestingEmployee.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveTypes.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateRequested)
+            </td>
+            <td>
+                @if (item.Approved == null)
+                {
+                  <p>Pending</p>
+                }
+                else
+                {
+                    @item.Approved
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { item.Id }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
