@@ -15,7 +15,7 @@ namespace LeaveManagment.Models
         public DateTime DateCreated { get; set; }
         public EmployeeVM Employee { get; set; }
         public string EmployeeId { get; set; }
-        public LeaveTypesVM LeaveType { get; set; }
+        public LeaveTypesVM LeaveTypes { get; set; }
         public int LeaveTypeId { get; set; }
        
     }

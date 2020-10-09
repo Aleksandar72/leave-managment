@@ -38,12 +38,12 @@ namespace LeaveManagment.Repository
 
         public async Task<ICollection<LeaveAllocation>> FindAll()
         {
-            return await _db.LeaveAllocations.Include(q => q.LeaveType).Include(q => q.LeaveType).ToListAsync();
+            return await _db.LeaveAllocations.Include(q => q.LeaveTypes).Include(q => q.Employee).ToListAsync();
         }
 
         public async Task<LeaveAllocation> FindById(int Id)
         {
-            return await _db.LeaveAllocations.Include(q => q.LeaveType).Include(q => q.Employee).FirstOrDefaultAsync(q => q.Id == Id);
+            return await _db.LeaveAllocations.Include(q => q.LeaveTypes).Include(q => q.Employee).FirstOrDefaultAsync(q => q.Id == Id);
         }
 
         public async Task<ICollection<LeaveAllocation>> GetLeaveAllocationsByEmployee(string employeeId)

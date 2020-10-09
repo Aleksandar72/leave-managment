@@ -46,7 +46,7 @@
 </div>
 @foreach (var item in Model.LeaveAllocations)
 {
-    <p>@item.LeaveType.Name</p>
+    <p>@item.LeaveTypes.Name</p>
     <p>@item.NumberOfDays</p>
 
     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
