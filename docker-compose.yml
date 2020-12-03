@@ -1,0 +1,13 @@
+version: "3"
+services:
+   ms-sql-server:
+      image: mcr.microsoft.com/mssql/server:2017-latest
+      environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "##ofaster123A"
+      ports:
+          - "1401:1433"
+   leavemanagmentimage:
+       build: .
+       ports:
+         - "8080:80"
