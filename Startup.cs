@@ -16,32 +16,68 @@ using Microsoft.Extensions.Hosting;
 using LeaveManagment.Contract;
 using AutoMapper;
 using LeaveManagment.Mappings;
+using Microsoft.AspNetCore.Http;
 
 namespace LeaveManagment
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            // add this file name to your .gitignore file
+            // so you can create it and use on your local dev machine
+            // remember last config source added wins if it has the same settings
+            builder.AddJsonFile("appsettings.Development.json", optional: true);
+            builder.AddEnvironmentVariables();
+
+            Configuration = builder.Build();
+            _env = env;
         }
-
+        public IWebHostEnvironment _env { get; set; }
         public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            if (_env.IsDevelopment())
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                           options.UseSqlServer(
+                               Configuration.GetConnectionString("DefaultConnection")));
+            }
+            else if (_env.IsProduction())
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                          options.UseSqlServer(
+                              Configuration.GetConnectionString("AzureConnection")));
+            }
+          
            
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper(typeof(Maps));
 
             services.AddDefaultIdentity<Employee>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
+            //this need to be added for chrom cookie issue
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.Unspecified;
+            });
+
+            services.AddAntiforgery(opts => {
+                opts.Cookie.SameSite = SameSiteMode.Unspecified;
+            });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -52,6 +88,7 @@ namespace LeaveManagment
                               UserManager<Employee> userManager,
                               RoleManager<IdentityRole> roleManager)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
