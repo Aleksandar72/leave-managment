@@ -62,6 +62,7 @@ namespace LeaveManagment
            
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUnitOfWorkSql, UnitOfWorkSql>();
 
             services.AddAutoMapper(typeof(Maps));
 

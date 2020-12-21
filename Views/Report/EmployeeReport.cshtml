@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LeaveManagment.Data.EmployeeReport>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalLeaveDays)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalLeaveRequestDays)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalRequests)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalApproved)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalRejected)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalWaiting)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalLeaveDays)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalLeaveRequestDays)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalRequests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalApproved)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalRejected)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalWaiting)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
