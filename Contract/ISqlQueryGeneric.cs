@@ -9,7 +9,9 @@ namespace LeaveManagment.Contract
     public interface ISqlQueryGeneric<T> where T : class
     {
         Task<ICollection<T>> ExecuteSql(string query);
-        Task<T> ExecuteSql(string query, params SqlParameter[] parameters);
+        Task<ICollection<T>> ExecuteSql(string query, Object obj);
+        Task<ICollection<T>> ExecuteSql(string query, SqlParameter singleParam);
+
 
     }
 }

@@ -16,19 +16,15 @@ namespace LeaveManagment.Controllers
     [Authorize(Roles = "Administrator")]
     public class ReportController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        // private readonly IMapper _mapper;
         private readonly IUnitOfWorkSql _unitOfWorkSql;
-
         public ReportController(IUnitOfWorkSql unitOfWorkSql)
         {
             _unitOfWorkSql = unitOfWorkSql;
            
         }
-        // GET: LeaveTypeController
         public async Task<ActionResult> EmployeeReport()
         {
-            var model = await _unitOfWorkSql.EmployeeReport.ExecuteSql("EXEC REPORT.EmployeeStatistic");
+            var model = await _unitOfWorkSql.EmployeeReport.ExecuteSql(SqlQuerys.EmployeeStoredProcedure);
            
             return View(model);
         }

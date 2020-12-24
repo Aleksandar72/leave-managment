@@ -21,16 +21,29 @@ namespace LeaveManagment.Repository
             _db = context.Set<T>();
         }
 
-        public async Task<ICollection<T>> ExecuteSql(string sqlquery)
+        public async Task<ICollection<T>> ExecuteSql(string query)
         {
-            var obj = _db.FromSqlRaw(sqlquery);
-            return await obj.ToListAsync();
+            var collection = _db.FromSqlRaw(query);
+            return await collection.ToListAsync();
         }
-
-        public Task<T> ExecuteSql(string query, params SqlParameter[] parameters)
+        public async Task<ICollection<T>> ExecuteSql(string query, SqlParameter singleParam)
         {
-
-            return null;
+            var paramArray = new SqlParameter[] { };
+            if (singleParam != null)
+            {
+                paramArray[0] = singleParam;
+                return await _db.FromSqlRaw(query,paramArray).ToListAsync();
+            }
+            else
+            {
+                return await _db.FromSqlRaw(query).ToListAsync();
+            }
+            
+        }
+        public async Task<ICollection<T>> ExecuteSql(string query, object obj)
+        {
+            var collection = _db.FromSqlRaw(query);
+            return await collection.ToListAsync();
         }
     }
 }
