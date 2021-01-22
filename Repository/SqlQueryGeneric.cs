@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using LeaveManagment.Utils;
 
 namespace LeaveManagment.Repository
 {
@@ -42,7 +43,8 @@ namespace LeaveManagment.Repository
         }
         public async Task<ICollection<T>> ExecuteSql(string query, object obj)
         {
-            var collection = _db.FromSqlRaw(query);
+           
+            var collection = _db.FromSqlRaw(query.AddSqlParams(obj),obj.ProcedureMappingParams());
             return await collection.ToListAsync();
         }
     }

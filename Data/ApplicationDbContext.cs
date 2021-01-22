@@ -19,6 +19,9 @@ namespace LeaveManagment.Data
                 .Entity<EmployeeReport>(eb =>
                 {
                     eb.HasNoKey();
+                }).Entity<RequestStatistic>(eb =>
+                {
+                    eb.HasNoKey();
                 });
             base.OnModelCreating(modelBuilder);
         }
@@ -28,6 +31,7 @@ namespace LeaveManagment.Data
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
         public DbSet<LeaveTypes>  LeaveTypes { get; set; }
         public DbSet<EmployeeReport> EmployeesReport { get; set; }
-        
+        public DbSet<RequestStatistic> RequestStatistics { get; set; }
+
     }
 }

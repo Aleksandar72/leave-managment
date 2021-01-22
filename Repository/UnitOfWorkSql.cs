@@ -12,6 +12,7 @@ namespace LeaveManagment.Repository
     {
         private readonly ApplicationDbContext _context;
         private ISqlQueryGeneric<EmployeeReport> _employeeReport;
+        private ISqlQueryGeneric<RequestStatistic> _requestReport;
 
         public UnitOfWorkSql(ApplicationDbContext context)
         {
@@ -19,5 +20,6 @@ namespace LeaveManagment.Repository
         }
 
         public ISqlQueryGeneric<EmployeeReport> EmployeeReport => _employeeReport ??= new SqlQueryGeneric<EmployeeReport>(_context);
+        public ISqlQueryGeneric<RequestStatistic> RequestReport => _requestReport ??= new SqlQueryGeneric<RequestStatistic>(_context);
     }
 }

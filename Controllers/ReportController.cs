@@ -28,7 +28,20 @@ namespace LeaveManagment.Controllers
            
             return View(model);
         }
+        public async Task<ActionResult> RequestReport(Data.ProcedureParams.ResponseStatisticParams responseStatisticParams)
+        {
+            
+            if (responseStatisticParams.StartDate == null || responseStatisticParams.EndDate == null)
+            {
+                responseStatisticParams.StartDate = new DateTime(2020,01,01);
+                responseStatisticParams.EndDate = new DateTime(2020, 05, 01);
+            }
+            var model = await _unitOfWorkSql.RequestReport.ExecuteSql(SqlQuerys.RequestStoredProcedure, responseStatisticParams);
 
-       
+            return View(model);
+        }
+        
+
+
     }
 }

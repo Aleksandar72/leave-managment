@@ -10,6 +10,7 @@ namespace LeaveManagment.Data
     {
 
         public const string EmployeeStoredProcedure = "EXEC REPORT.EmployeeStatistic";
+        public const string RequestStoredProcedure = "EXEC REPORT.RequestStatistic";
 
     }
 }

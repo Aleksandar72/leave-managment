@@ -26,10 +26,10 @@ namespace LeaveManagment
         {
             Configuration = configuration;
 
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(env.ContentRootPath)
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            var builder = new ConfigurationBuilder();
+            //.SetBasePath(env.ContentRootPath)
+            //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             // add this file name to your .gitignore file
             // so you can create it and use on your local dev machine
